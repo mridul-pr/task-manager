@@ -33,10 +33,22 @@ width: 100%;
 
 .form button{
     background-color: beige ;
+    border: 1px solid black;
 }
 
 .form button:hover{
     background-color: lightblue ;
+}
+
+.clear{
+    background-color: green;
+    margin-top:20px;
+    width: 100%;
+    border: 1px solid black;
+}
+
+.clear:hover{
+    background-color: red;
 }
 
 table{

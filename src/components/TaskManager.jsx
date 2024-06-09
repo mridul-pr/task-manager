@@ -1,69 +1,105 @@
-import React, { useState } from 'react'
-import './TaskManager.css'
+import React, { useState } from 'react';
+import './TaskManager.css';
 
 function TaskManager() {
-const[title,setTitle] = useState()
-const[description,setDescription] = useState()
-const[status,setStatus] = useState('To-Do')
-const[tasks,setTasks] = useState([])
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [status, setStatus] = useState('To-Do');
+  const [tasks, setTasks] = useState([]);
+  const [filter, setFilter] = useState('All');
 
-const handleTitle = (e) =>{
-  setTitle(e.target.value)
-}
-const handleDescription = (e) =>{
-  setDescription(e.target.value)
-}
-const handleStatus = (e) =>{
-  setStatus(e.target.value)
-}
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
+  };
 
-const handleSumbit = (e)=>{
-  e.preventDefault()
-  const newTask = {title,description,status}
-  setTasks([...tasks,newTask])
-  setTitle('')
-  setDescription('')
-  setStatus('To-Do')
-}
+  const handleDescription = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleStatus = (e) => {
+    setStatus(e.target.value);
+  };
+
+  const handleFilterChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (title === '') {
+      alert('Enter a Task Title')
+      return;
+    }
+    const newTask = { title, description, status };
+    setTasks([...tasks, newTask]);
+    setTitle('');
+    setDescription('');
+    setStatus('To-Do');
+  };
+
+  const handleClear = () => {
+    setTasks([]);
+  };
+
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === 'All') {
+      return true;
+    }
+    return task.status === filter;
+  });
 
   return (
-   <div>
-      <form onSubmit={handleSumbit} className='form'>
+    <div className="task-manager">
+      <h1>Task Manager System</h1>
+      <form onSubmit={handleSubmit} className="form">
         <input
-        value={title}
-        placeholder='title'
-        onChange={handleTitle}
-        > 
-        </input>
+          value={title}
+          placeholder="Title"
+          onChange={handleTitle}
+        />
         <input
-        value={description}
-        placeholder='description'
-        onChange={handleDescription}
-        ></input>
+          value={description}
+          placeholder="Description"
+          onChange={handleDescription}
+        />
         <select
-        onChange={handleStatus}>
-          <option value='To-Do'> TO-DO</option>
-          <option value='Completed'> Completed</option>
+          value={status}
+          onChange={handleStatus}
+        >
+          <option value="To-Do">TO-DO</option>
+          <option value="Completed">Completed</option>
         </select>
-        <button type='sumbit'>Submit</button>
+        <button type="submit">Add Task</button>
       </form>
-      <table className='table'>
+      <button onClick={handleClear} className="clear-button">Clear</button>
+      <div className="filter">
+        <label>Filter Tasks: </label>
+        <select value={filter} onChange={handleFilterChange}>
+          <option value="All">All</option>
+          <option value="To-Do">TO-DO</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <table className="table">
         <thead>
-          <th> Title</th>
-          <th> Description</th>
-          <th> Status</th>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+          </tr>
         </thead>
         <tbody>
-         {tasks.map((tasks,index) =>(
-          <tr key={index}>
-            <td>{tasks.title}</td>
-            <td>{tasks.description}</td>
-            <td>{tasks.status}</td>
-          </tr>))}
+          {filteredTasks.map((task, index) => (
+            <tr key={index}>
+              <td>{task.title}</td>
+              <td>{task.description}</td>
+              <td>{task.status}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
-   </div>
-  )
+    </div>
+  );
 }
 
-export default TaskManager
+export default TaskManager;
