@@ -71,7 +71,7 @@ function TaskManager() {
         </select>
         <button type="submit">Add Task</button>
       </form>
-      <button onClick={handleClear} className="clear-button">Clear</button>
+      <button onClick={handleClear} className="clear">Clear</button>
       <div className="filter">
         <label>Filter Tasks: </label>
         <select value={filter} onChange={handleFilterChange}>
